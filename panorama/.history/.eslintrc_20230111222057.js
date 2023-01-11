@@ -26,7 +26,6 @@ module.exports = defineConfig({
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': 'off',
     'space-before-function-paren': 0,
     // 禁止使用多余的包
     'import/no-extraneous-dependencies': 0,

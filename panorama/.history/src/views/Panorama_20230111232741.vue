@@ -48,7 +48,7 @@
                 <div class="info_right">22.79 万间</div>
               </div>
               <div class="row_progress progress1">
-                <img src="../assets/images/1房源项目规模/黄.png">
+                <img src="../assets/images/1房源项目规模/绿.png">
               </div>
             </div>
             <div class="row pm_2">
@@ -60,7 +60,7 @@
                 <div class="info_right">22.79 万间</div>
               </div>
               <div class="row_progress progress2">
-                <img src="../assets/images/1房源项目规模/青.png">
+                <img src="../assets/images/1房源项目规模/绿.png">
               </div>
             </div>
             <div class="row pm_3">
@@ -330,33 +330,29 @@ export default {
 
           .info_left {
             display: flex;
-            align-items: flex-end;
 
             .info_icon {
 
+              width: .225rem;
+              height: .2625rem;
+
               &.icon1 {
-                background: url('../assets/images/1房源项目规模/累计房源.png') no-repeat center bottom/100%;
-                width: .2125rem;
-                height: .2625rem;
+                background: url('../assets/images/1房源项目规模/累计房源.png') no-repeat center/100%;
               }
 
               &.icon2 {
-                background: url('../assets/images/1房源项目规模/项目规模.png') no-repeat center bottom/100%;
-                width: .225rem;
-                height: .2625rem;
+                background: url('../assets/images/1房源项目规模/项目规模.png') no-repeat center/100%;
               }
 
               &.icon3 {
-                background: url('../assets/images/1房源项目规模/运营房源.png') no-repeat center bottom/100%;
-                width: .2625rem;
-                height: .25rem;
+                background: url('../assets/images/1房源项目规模/运营房源.png') no-repeat center/100%;
               }
             }
 
             .info_title {
               font-size: 0.22rem;
               font-weight: 400;
-              line-height: 1;
+              line-height: 0.3rem;
               color: #9FDCFF;
               padding-left: 0.15rem;
             }

@@ -42,39 +42,15 @@
             <div class="row pm_1">
               <div class="row_info">
                 <div class="info_left">
-                  <div class="info_icon icon1"></div>
+                  <div class="info_icon"></div>
                   <div class="info_title">累计房源数</div>
                 </div>
-                <div class="info_right">22.79 万间</div>
+                <div class="info_right"></div>
               </div>
-              <div class="row_progress progress1">
-                <img src="../assets/images/1房源项目规模/黄.png">
-              </div>
+              <div class="row_progress"></div>
             </div>
-            <div class="row pm_2">
-              <div class="row_info">
-                <div class="info_left">
-                  <div class="info_icon icon2"></div>
-                  <div class="info_title">累计房源数</div>
-                </div>
-                <div class="info_right">22.79 万间</div>
-              </div>
-              <div class="row_progress progress2">
-                <img src="../assets/images/1房源项目规模/青.png">
-              </div>
-            </div>
-            <div class="row pm_3">
-              <div class="row_info">
-                <div class="info_left">
-                  <div class="info_icon icon3"></div>
-                  <div class="info_title">累计房源数</div>
-                </div>
-                <div class="info_right">22.79 万间</div>
-              </div>
-              <div class="row_progress progress3">
-                <img src="../assets/images/1房源项目规模/绿.png">
-              </div>
-            </div>
+            <div class="row pm_2"></div>
+            <div class="row pm_3"></div>
           </div>
         </div>
       </div>
@@ -326,76 +302,29 @@ export default {
         .row_info {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
 
           .info_left {
             display: flex;
-            align-items: flex-end;
 
             .info_icon {
-
-              &.icon1 {
-                background: url('../assets/images/1房源项目规模/累计房源.png') no-repeat center bottom/100%;
-                width: .2125rem;
-                height: .2625rem;
-              }
-
-              &.icon2 {
-                background: url('../assets/images/1房源项目规模/项目规模.png') no-repeat center bottom/100%;
-                width: .225rem;
-                height: .2625rem;
-              }
-
-              &.icon3 {
-                background: url('../assets/images/1房源项目规模/运营房源.png') no-repeat center bottom/100%;
-                width: .2625rem;
-                height: .25rem;
-              }
+              background: url('../assets/images/1房源项目规模/累计房源.png') no-repeat center/100%;
+              width: .225rem;
+              height: .2625rem;
             }
 
             .info_title {
               font-size: 0.22rem;
               font-weight: 400;
-              line-height: 1;
+              line-height: 0.3rem;
               color: #9FDCFF;
               padding-left: 0.15rem;
             }
           }
 
-          .info_right {
-            font-size: 0.3rem;
-            font-weight: 400;
-            color: #fff;
-            line-height: 1;
-          }
+          .info_right {}
         }
 
-        .row_progress {
-          margin-top: 0.16rem;
-          height: 0.25rem;
-          position: relative;
-
-          &.progress1 {
-            background: url('../assets/images/1房源项目规模/1.png') no-repeat center/100%;
-          }
-
-          &.progress2 {
-            background: url('../assets/images/1房源项目规模/2.png') no-repeat center/100%;
-          }
-
-          &.progress3 {
-            background: url('../assets/images/1房源项目规模/3.png') no-repeat center/100%;
-          }
-
-          img {
-            position: absolute;
-            width: 4rem;
-            height: 0.15rem;
-            top: 50%;
-            transform: translateY(-50%);
-            left: calc(0% + 0.06rem);
-          }
-        }
+        .row_progress {}
       }
     }
   }

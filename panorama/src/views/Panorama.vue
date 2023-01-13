@@ -161,13 +161,17 @@
 </template>
 
 <script>
-import init from '../utils/initChart'
+// import init from '../utils/initChart'
+import '@/utils/china.js'
 
 export default {
   mounted() {
-    const mapChart = () => {
-      const mapName = 'china'
-      const data = [
+    this.mapChart()
+  },
+  methods: {
+    mapChart: function() {
+      var mapName = 'china'
+      var data = [
         { name: "北京", value: 199 },
         { name: "天津", value: 42 },
         { name: "河北", value: 102 },
@@ -201,8 +205,8 @@ export default {
         { name: "海南", value: 14 },
       ];
 
-      const geoCoordMap = {};
-      const toolTipData = [
+      var geoCoordMap = {};
+      var toolTipData = [
         { name: "北京", value: [{ name: "科技人才总数", value: 95 }, { name: "理科", value: 82 }] },
         { name: "天津", value: [{ name: "文科", value: 22 }, { name: "理科", value: 20 }] },
         { name: "河北", value: [{ name: "文科", value: 60 }, { name: "理科", value: 42 }] },
@@ -236,27 +240,27 @@ export default {
         { name: "海南", value: [{ name: "文科", value: 8 }, { name: "理科", value: 6 }] },
       ];
 
-      /* 获取地图数据 */
-      // const mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
-      // mapFeatures.forEach((v) => {
-      //   // 地区名称
-      //   const { name } = v.properties;
-      //   // 地区经纬度
-      //   geoCoordMap[name] = v.properties.cp;
+      /*获取地图数据*/
+      var mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
+      mapFeatures.forEach(function(v) {
+        // 地区名称
+        var name = v.properties.name;
+        // 地区经纬度
+        geoCoordMap[name] = v.properties.cp;
 
-      // });
+      });
 
       console.log(data)
       console.log(toolTipData)
-      // const max = 480;
-      // const min = 9; // todo 
-      // const maxSize4Pin = 100;
-      // const minSize4Pin = 20;
+      var max = 480,
+        min = 9; // todo 
+      var maxSize4Pin = 100,
+        minSize4Pin = 20;
 
-      const convertData = (data) => {
-        const res = [];
-        for (let i = 0; i < data.length; i++) {
-          const geoCoord = geoCoordMap[data[i].name];
+      var convertData = function(data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
           if (geoCoord) {
             res.push({
               name: data[i].name,
@@ -266,7 +270,7 @@ export default {
         }
         return res;
       };
-      const options = {
+      const option = {
         tooltip: {
           padding: 0,
           enterable: true,
@@ -278,22 +282,22 @@ export default {
           // position: function (point, params, dom, rect, size) {
           //   return [point[0], point[1]];
           // },
-          formatter(params) {
+          formatter: function(params) {
             // console.log(params)
-            let tipHtml = '';
-            tipHtml = `<div style="width:280px;height:180px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">`
-              + `<div style="width:100%;height:40px;line-height:40px;border-bottom:2px solid rgba(7,166,255,0.7);padding:0 20px">` + `<i style="display:inline-block;width:8px;height:8px;background:#16d6ff;border-radius:40px;">` + `</i>`
-              + `<span style="margin-left:10px;color:#fff;font-size:16px;">${params.name}</span>` + `</div>`
-              + `<div style="padding:20px">`
-              + `<p style="color:#fff;font-size:12px;">` + `<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">` + `</i>`
-              + `单位总数：` + `<span style="color:#11ee7d;margin:0 6px;">${toolTipData.length}</span>` + `个` + `</p>`
-              + `<p style="color:#fff;font-size:12px;">` + `<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">` + `</i>`
-              + `总人数：` + `<span style="color:#f48225;margin:0 6px;">${toolTipData.length}</span>` + `个` + `</p>`
-              + `<p style="color:#fff;font-size:12px;">` + `<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">` + `</i>`
-              + `总人数：` + `<span style="color:#f4e925;margin:0 6px;">${toolTipData.length}</span>` + `个` + `</p>`
-              + `<p style="color:#fff;font-size:12px;">` + `<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">` + `</i>`
-              + `总人数：` + `<span style="color:#25f4f2;margin:0 6px;">${toolTipData.length}</span>` + `个` + `</p>`
-              + `</div>` + `</div>`;
+            var tipHtml = '';
+            tipHtml = '<div style="width:280px;height:180px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">'
+              + '<div style="width:100%;height:40px;line-height:40px;border-bottom:2px solid rgba(7,166,255,0.7);padding:0 20px">' + '<i style="display:inline-block;width:8px;height:8px;background:#16d6ff;border-radius:40px;">' + '</i>'
+              + '<span style="margin-left:10px;color:#fff;font-size:16px;">' + params.name + '</span>' + '</div>'
+              + '<div style="padding:20px">'
+              + '<p style="color:#fff;font-size:12px;">' + '<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">' + '</i>'
+              + '单位总数：' + '<span style="color:#11ee7d;margin:0 6px;">' + toolTipData.length + '</span>' + '个' + '</p>'
+              + '<p style="color:#fff;font-size:12px;">' + '<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">' + '</i>'
+              + '总人数：' + '<span style="color:#f48225;margin:0 6px;">' + toolTipData.length + '</span>' + '个' + '</p>'
+              + '<p style="color:#fff;font-size:12px;">' + '<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">' + '</i>'
+              + '总人数：' + '<span style="color:#f4e925;margin:0 6px;">' + toolTipData.length + '</span>' + '个' + '</p>'
+              + '<p style="color:#fff;font-size:12px;">' + '<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">' + '</i>'
+              + '总人数：' + '<span style="color:#25f4f2;margin:0 6px;">' + toolTipData.length + '</span>' + '个' + '</p>'
+              + '</div>' + '</div>';
             return tipHtml;
           }
 
@@ -338,7 +342,7 @@ export default {
           type: 'scatter',
           coordinateSystem: 'geo',
           data: convertData(data),
-          symbolSize(val) {
+          symbolSize: function(val) {
             return val[2] / 10;
           },
           label: {
@@ -361,7 +365,7 @@ export default {
           type: 'map',
           map: mapName,
           geoIndex: 0,
-          aspectScale: 0.75, // 长宽比
+          aspectScale: 0.75, //长宽比
           showLegendSymbol: false, // 存在legend时显示
           label: {
             normal: {
@@ -385,7 +389,7 @@ export default {
             }
           },
           animation: false,
-          data
+          data: data
         },
         {
           name: '点',
@@ -397,10 +401,10 @@ export default {
           name: 'Top 5',
           type: 'effectScatter',
           coordinateSystem: 'geo',
-          data: convertData(data.sort((a, b) => {
+          data: convertData(data.sort(function(a, b) {
             return b.value - a.value;
           }).slice(0, 10)),
-          symbolSize(val) {
+          symbolSize: function(val) {
             return val[2] / 10;
           },
           showEffectOn: 'render',
@@ -427,9 +431,13 @@ export default {
 
         ]
       };
-      init('.map_chart', options)
+      const myChart = this.$echarts.init(document.querySelector('.map_chart'));
+      myChart.setOption(option);
+      window.addEventListener('resize', () => {
+        myChart.resize();
+      });
+
     }
-    mapChart()
   },
 };
 </script>
@@ -548,14 +556,18 @@ export default {
   padding: 0 0.66rem;
 
   .child {
-    flex: 3;
     overflow: hidden;
 
+    &:nth-child(1) {
+      width: 4.2rem;
+    }
+
     &:nth-child(2) {
-      flex: 5;
+      flex: 1;
     }
 
     &:nth-child(3) {
+      width: 4.2rem;
       display: flex;
       flex-flow: column;
       align-items: flex-end;
@@ -988,7 +1000,8 @@ export default {
 
   // .main_right {}
   .map_chart {
-    height: 10.5rem;
+    width: 100%;
+    height: 100%;
   }
 }
 

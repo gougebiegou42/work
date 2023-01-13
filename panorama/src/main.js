@@ -7,7 +7,6 @@ import '@/style/index.less';
 import '@/assets/main.css';
 
 import '@/utils/flexible';
-// import '@/utils/china';
 
 Vue.prototype.$echarts = echarts;
 

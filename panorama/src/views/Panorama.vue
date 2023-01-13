@@ -49,7 +49,9 @@
                 <div class="info_right">22.79 万间</div>
               </div>
               <div class="row_progress progress1">
-                <img :style="rowProgress()" src="../assets/images/1房源项目规模/黄.png">
+                <div style="width: 100%; height: 100%; overflow: hidden;">
+                  <img :style="{ left: `calc(-${rowLeft}%)` }" src="../assets/images/1房源项目规模/黄.png">
+                </div>
               </div>
             </div>
             <div class="row pm_2">
@@ -61,7 +63,9 @@
                 <div class="info_right">22.79 万间</div>
               </div>
               <div class="row_progress progress2">
-                <img src="../assets/images/1房源项目规模/青.png">
+                <div style="width: 100%; height: 100%; overflow: hidden;">
+                  <img src="../assets/images/1房源项目规模/青.png">
+                </div>
               </div>
             </div>
             <div class="row pm_3">
@@ -203,13 +207,14 @@ export default {
       // bar进度条垂直位移
       barBottom: 50,
       // row进度条水平位移
-      rowLeft: 80
+      rowLeft: 50
     }
   },
   mounted() {
     this.mapChart();
     this.totalProgress();
-    this.rowProgress()
+    this.rowProgress();
+    // this.row()
   },
   methods: {
     // map初始化
@@ -545,10 +550,19 @@ export default {
     },
     // row进度
     rowProgress() {
-      return `left: calc(-${this.rowLeft}% + 0.06rem);`
-
+      setTimeout(() => {
+        this.rowLeft = 80
+      }, 2000);
+      // return `left: calc(-${this.rowLeft}% + 0.06rem);`
       // timer = setInterval(loading, 1000)
-
+    },
+    row() {
+      let timer = setInterval(() => {
+        this.rowLeft = this.rowLeft - 1;
+        if (this.rowLeft <= 0) {
+          clearInterval(timer)
+        }
+      }, 100);
     }
   },
   computed: {
@@ -852,6 +866,7 @@ export default {
         .row_progress {
           margin-top: 0.16rem;
           height: 0.25rem;
+          padding: 0 0.06REM;
           position: relative;
           overflow: hidden;
 
@@ -873,8 +888,9 @@ export default {
             height: 0.15rem;
             top: 50%;
             transform: translateY(-50%);
-            left: calc(-90% + 0.06rem);
+            transition: left 3s;
           }
+
         }
       }
     }

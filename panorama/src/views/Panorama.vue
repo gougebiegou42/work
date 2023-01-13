@@ -25,9 +25,10 @@
         <div class="total_data">
           <div class="total_left">
             <div class="project_icon"></div>
+            <div class="total_progress"></div>
           </div>
           <div class="total_right">
-            <div class="r_top">395个</div>
+            <div class="r_top">395</div>
             <div class="r_bottom">累计项目数</div>
           </div>
           <div class="chart"></div>
@@ -48,7 +49,7 @@
                 <div class="info_right">22.79 万间</div>
               </div>
               <div class="row_progress progress1">
-                <img src="../assets/images/1房源项目规模/黄.png">
+                <img :style="rowProgress()" src="../assets/images/1房源项目规模/黄.png">
               </div>
             </div>
             <div class="row pm_2">
@@ -93,13 +94,45 @@
             <div class="rm_ripple">
               <div class="ripple">
                 <div class="ripple_bar">
-                  <div class="ripple_num">88.88 <div>%</div>
+                  <div class="bar_box">
+                    <div class="bar_inner" :style="barProgress()">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ripple_num">{{ barBottom }} <div>%</div>
                   </div>
                 </div>
                 <div class="ripple_tag">出租率</div>
               </div>
               <div class="ripple">
                 <div class="ripple_bar">
+                  <div class="bar_box">
+                    <div class="bar_inner" :style="barProgress()">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box_waves">
+                        <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+                        </path>
+                      </svg>
+                    </div>
+                  </div>
                   <div class="ripple_num">2750 <div>元/间/月</div>
                   </div>
                 </div>
@@ -161,15 +194,26 @@
 </template>
 
 <script>
-// import init from '../utils/initChart'
+import init from '../utils/initChart'
 import '@/utils/china.js'
 
 export default {
+  data() {
+    return {
+      // bar进度条垂直位移
+      barBottom: 50,
+      // row进度条水平位移
+      rowLeft: 80
+    }
+  },
   mounted() {
-    this.mapChart()
+    this.mapChart();
+    this.totalProgress();
+    this.rowProgress()
   },
   methods: {
-    mapChart: function() {
+    // map初始化
+    mapChart() {
       var mapName = 'china'
       var data = [
         { name: "北京", value: 199 },
@@ -437,17 +481,89 @@ export default {
         myChart.resize();
       });
 
+    },
+    // 计算进度
+    barProgress() {
+      return `bottom: calc(-125% + ${this.barBottom}%);`
+    },
+    // total进度
+    totalProgress() {
+      const option = {
+        color: [
+          {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 1,
+            y2: 0,
+            colorStops: [
+              {
+                offset: 0,
+                color: "rgba(238, 245, 125, 1)"
+              },
+              {
+                offset: 0.5,
+                color: "rgba(238, 245, 125, 1)"
+              },
+              {
+                offset: 1,
+                color: "rgba(238, 245, 125, 1)"
+              }
+            ],
+            global: false
+          }
+        ],
+        angleAxis: {
+          max: 100,
+          show: false,
+          startAngle: 180,
+        },
+        radiusAxis: {
+          type: "category",
+          show: false
+        },
+        polar: {
+          radius: '190%',
+          center: ["50%", "50%"]
+        },
+        series: [
+          {
+            type: "bar",
+            roundCap: true,
+            barWidth: 5,
+            showBackground: true,
+            backgroundStyle: {
+              color: "rgba(0,0,0,0)"
+            },
+            coordinateSystem: "polar",
+            name: "库存周转率",
+            data: [90]
+          }
+        ]
+      }
+      init('.total_progress', option)
+    },
+    // row进度
+    rowProgress() {
+      return `left: calc(-${this.rowLeft}% + 0.06rem);`
+
+      // timer = setInterval(loading, 1000)
+
     }
   },
+  computed: {
+
+  }
 };
 </script>
 <style scoped lang="less">
 .panorama {
   height: 13.5rem;
   width: 24rem;
-  background: url(../assets/images/背景.png) no-repeat top center;
+  background: url(../assets/images/背景.png) no-repeat center/100%;
   color: aliceblue;
   position: relative;
+  font-family: 'lt';
 }
 
 .header {
@@ -492,7 +608,11 @@ export default {
       font-size: 0.5rem;
       text-align: center;
       line-height: 0.75rem;
+      font-family: 'fzlt';
+      font-weight: 400;
       // 设置行间距
+      letter-spacing: .0625rem;
+      line-height: 1.8;
     }
 
     .top_right {
@@ -550,8 +670,6 @@ export default {
 
 .main {
   display: flex;
-  min-width: 1024px;
-  max-width: 1920px;
   margin: 0 auto;
   padding: 0 0.66rem;
 
@@ -588,16 +706,27 @@ export default {
       left: 0.25rem;
       top: 0.24rem;
       width: 1.35rem;
-      height: 1.34rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 1.35rem;
+      border-radius: 50%;
 
       .project_icon {
         background: url(../assets/images/显示数据/项目数/项目.png) no-repeat;
         background-size: 100% 100%;
         width: 0.55rem;
         height: 0.63rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .total_progress {
+        position: absolute;
+        width: 100%;
+        height: 1.35rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-49%, -49%);
       }
     }
 
@@ -616,7 +745,7 @@ export default {
         color: #eef57d;
         font-size: 0.63rem;
         font-weight: 400;
-        line-height: 1.11rem;
+        line-height: 2;
       }
 
       .r_bottom {
@@ -744,7 +873,7 @@ export default {
             height: 0.15rem;
             top: 50%;
             transform: translateY(-50%);
-            left: calc(0% + 0.06rem);
+            left: calc(-90% + 0.06rem);
           }
         }
       }
@@ -797,26 +926,100 @@ export default {
             width: 1.75rem;
             height: 1.75rem;
             position: relative;
+            overflow: hidden;
+
+            .bar_box {
+              position: absolute;
+              width: 1.46rem;
+              height: 1.46rem;
+              top: 0.15rem;
+              left: 0.14rem;
+              border-radius: 50%;
+              overflow: hidden;
+
+              .bar_inner {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                // bottom: calc(-125% + 100%);
+                background: #00FFFF;
+
+                .box_waves {
+                  position: absolute;
+                  left: 0;
+                  bottom: 100%;
+                  width: 200%;
+                  stroke: none;
+
+                  &:nth-child(1) {
+                    fill: #00FFFF;
+                    transform: translate(-50%, 0);
+                    z-index: 3;
+                    animation: wave-move1 1.5s linear infinite;
+                    /* svg重合有一条线 */
+                    margin-bottom: -2px;
+                  }
+
+                  &:nth-child(2) {
+                    fill: rgba(40, 187, 255, 0.5);
+                    transform: translate(0, 0);
+                    z-index: 2;
+                    animation: wave-move2 3s linear infinite;
+                  }
+
+                  &:nth-child(3) {
+                    fill: #2084cc;
+                    transform: translate(-50%, 0);
+                    z-index: 1;
+                    animation: wave-move1 3s linear infinite;
+                  }
+                }
+
+                @keyframes wave-move1 {
+                  100% {
+                    transform: translate(0, 0);
+                  }
+                }
+
+                @keyframes wave-move2 {
+                  100% {
+                    transform: translate(-50%, 0);
+                  }
+                }
+              }
+            }
+
 
             .ripple_num {
               position: absolute;
-              left: 0.48rem;
-              top: 0.44rem;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
               font-size: 0.3rem;
               height: 0.54rem;
               font-weight: 400;
               color: #fff;
               line-height: 1.2;
               text-align: center;
-
+              z-index: 5;
             }
           }
 
           &:nth-child(2) {
-            .ripple_num {
-              left: 0.52rem;
-              top: 0.44rem;
+            .bar_box {
+              .bar_inner {
+                background: #31F5A9;
 
+                .box_waves {
+                  &:nth-child(1) {
+                    fill: #31F5A9;
+                  }
+                }
+              }
+            }
+
+            .ripple_num {
               div {
                 font-size: 0.2rem;
               }

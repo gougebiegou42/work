@@ -9,8 +9,8 @@
         </div>
         <h1>住房租赁数字化经营全景图</h1>
         <div class="top_right">
-          <div class="date">2022.11.7 星期一</div>
-          <div class="time">11:27:28</div>
+          <div class="date">{{ currentDate }}</div>
+          <div class="time">{{ currentTime }}</div>
         </div>
       </div>
       <div class="select">
@@ -180,7 +180,18 @@
               <div class="pi_top">2100<span>家</span></div>
               <div class="pi_bottom">入库联盟企业数</div>
             </div>
-            <div class="pe_chart"></div>
+            <div class="pe_chart">
+              <div class="pe_mask"></div>
+              <div class="pe_chart_1">
+                <div class="inner_1"></div>
+              </div>
+              <div class="pe_chart_2">
+                <div class="inner_2"></div>
+              </div>
+              <div class="pe_chart_3">
+                <div class="inner_3"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -198,8 +209,9 @@
 </template>
 
 <script>
-import init from '../utils/initChart'
-import '@/utils/china.js'
+import init from '../utils/initChart';
+import '@/utils/china.js';
+import User from '@/api/user';
 
 export default {
   data() {
@@ -207,13 +219,22 @@ export default {
       // bar进度条垂直位移
       barBottom: 50,
       // row进度条水平位移
-      rowLeft: 50
+      rowLeft: 100,
+      // 日期
+      currentDate: '',
+      // 时间
+      currentTime: ''
+
     }
+  },
+  created() {
+    this.list();
   },
   mounted() {
     this.mapChart();
     this.totalProgress();
     this.rowProgress();
+    this.timeStamp()
     // this.row()
   },
   methods: {
@@ -480,12 +501,7 @@ export default {
 
         ]
       };
-      const myChart = this.$echarts.init(document.querySelector('.map_chart'));
-      myChart.setOption(option);
-      window.addEventListener('resize', () => {
-        myChart.resize();
-      });
-
+      init('.map_chart', option);
     },
     // 计算进度
     barProgress() {
@@ -551,8 +567,8 @@ export default {
     // row进度
     rowProgress() {
       setTimeout(() => {
-        this.rowLeft = 80
-      }, 2000);
+        this.rowLeft = 30
+      }, 1000);
       // return `left: calc(-${this.rowLeft}% + 0.06rem);`
       // timer = setInterval(loading, 1000)
     },
@@ -563,7 +579,42 @@ export default {
           clearInterval(timer)
         }
       }, 100);
-    }
+    },
+    timeStamp() {
+      const time = () => {
+        let dt = new Date();
+        let y = dt.getFullYear();
+        let mt = dt.getMonth() + 1;
+        let day = dt.getDate();
+        let h = dt.getHours();//获取时
+        let m = dt.getMinutes();//获取分
+        let s = dt.getSeconds();//获取秒
+        if (mt < 10) {
+          mt = `0${mt}`;
+        };
+        if (day < 10) {
+          day = `0${day}`;
+        };
+        if (h < 10) {
+          h = `0${h}`;
+        };
+        if (m < 10) {
+          m = `0${m}`
+        };
+        if (s < 10) {
+          s = `0${s}`
+        };
+        this.currentDate = `${y}.${mt}.${day}`;
+        this.currentTime = `${h}:${m}:${s}`;
+      }
+      setInterval(time, 1000)
+
+    },
+    // 获取所有数据
+    async list() {
+      const res = await User.listSylas();
+      console.log(res);
+    },
   },
   computed: {
 
@@ -1170,6 +1221,7 @@ export default {
         // display: flex;
         // flex-flow: column;
         // align-items: flex-start;
+        z-index: 7;
         padding-left: 0.11rem;
 
         .pi_top {
@@ -1191,7 +1243,173 @@ export default {
         }
       }
 
-      .pe_chart {}
+      .pe_chart {
+        width: 2.30rem;
+        height: 2.30rem;
+        position: absolute;
+        left: 0.8rem;
+        top: -0.2rem;
+
+        .pe_mask {
+          width: 1.17rem;
+          height: 0.95rem;
+          position: absolute;
+          left: -0.1rem;
+          top: 0.2rem;
+          background-color: #002561;
+          z-index: 5;
+        }
+
+        // background-color: lightpink;
+
+        .pe_chart_1 {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 1.50rem;
+          height: 1.50rem;
+          border-radius: 50%;
+          box-sizing: border-box;
+          z-index: 4;
+
+          .inner_1 {
+            position: absolute;
+            top: -0.075rem;
+            left: -0.075rem;
+            bottom: -0.075rem;
+            right: -0.075rem;
+            border-radius: 50%;
+            background: conic-gradient(#EEF57D 0%, #EEF57D 75%, transparent 75%);
+            // animation: rotate 3s ease-in-out infinite;
+            transform: rotate(0deg);
+            // transition-origin: 50% 50%;
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: .0625rem;
+              left: .0625rem;
+              bottom: .0625rem;
+              right: .0625rem;
+              background: #002561;
+              border-radius: 50%;
+              // z-index: 1;
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              width: 0.15rem;
+              height: 0.15rem;
+              top: 0;
+              left: 50%;
+              transform: translate(-50%, -3px);
+              border-radius: 50%;
+              background: #EEF57D;
+              z-index: 9;
+            }
+          }
+        }
+
+        .pe_chart_2 {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 1.75rem;
+          height: 1.75rem;
+          border-radius: 50%;
+          box-sizing: border-box;
+          z-index: 3;
+
+          .inner_2 {
+            position: absolute;
+            top: -0.075rem;
+            left: -0.075rem;
+            bottom: -0.075rem;
+            right: -0.075rem;
+            border-radius: 50%;
+            background: conic-gradient(#31F5A9 0%, #31F5A9 50%, transparent 50%);
+            // animation: rotate 3s ease-in-out infinite;
+            transform: rotate(90deg);
+            // transition-origin: 50% 50%;
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: .0625rem;
+              left: .0625rem;
+              bottom: .0625rem;
+              right: .0625rem;
+              background: #002561;
+              border-radius: 50%;
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              width: 0.15rem;
+              height: 0.15rem;
+              top: 0;
+              left: 50%;
+              transform: translate(-50%, -3px);
+              border-radius: 50%;
+              background: #31F5A9;
+            }
+          }
+        }
+
+        .pe_chart_3 {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          box-sizing: border-box;
+
+          .inner_3 {
+            position: absolute;
+            top: -0.075rem;
+            left: -0.075rem;
+            bottom: -0.075rem;
+            right: -0.075rem;
+            border-radius: 50%;
+            background: conic-gradient(#00FFFF 0%, #00FFFF 25%, transparent 25%);
+            // animation: rotate 3s ease-in-out infinite;
+            transform: rotate(180deg);
+            // transition-origin: 50% 50%;
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: .0625rem;
+              left: .0625rem;
+              bottom: .0625rem;
+              right: .0625rem;
+              background: #002561;
+              border-radius: 50%;
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              width: 0.15rem;
+              height: 0.15rem;
+              top: 0;
+              left: 50%;
+              transform: translate(-50%, -3px);
+              border-radius: 50%;
+              background: #00FFFF;
+            }
+          }
+        }
+
+
+
+      }
 
       .pe_left {
         top: 0;

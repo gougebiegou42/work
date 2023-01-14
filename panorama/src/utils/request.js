@@ -1,10 +1,11 @@
 import axios from 'axios';
 
+axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // 创建请求实例
 const instance = axios.create({
   baseURL: '/api',
   // 指定请求超时的毫秒数
-  timeout: 1000,
+  timeout: 180000,
   // 表示跨域请求时是否需要使用凭证
   withCredentials: false,
 });
@@ -19,6 +20,10 @@ instance.interceptors.request.use(
      *  config.headers.token = token
      * }
      */
+    const isToken = (config.headers || {}).isToken === false;
+    if (getToken() && !isToken) {
+      config.headers['Authorization'] = 'Bearer ' + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
+    }
     return config;
   },
   (error) => {

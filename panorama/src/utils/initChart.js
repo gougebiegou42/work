@@ -4,14 +4,23 @@ const init = (dom, option) => {
   const myChart = echart.init(document.querySelector(dom));
   myChart.setOption(option);
 
-  window.addEventListener('resize', () => {
-    myChart.resize();
-  });
-  // debounce2(function () {
-  //   return window.addEventListener('resize', () => {
-  //     myChart.resize();
-  //   });
-  // }, 2000);
+  window.addEventListener(
+    'resize',
+    throttle2(function () {
+      myChart.resize();
+    }, 100),
+  );
+};
+
+// 移除echart监听
+const end = (dom, option) => {
+  const myChart = echart.init(document.querySelector(dom));
+  window.removeEventListener(
+    'resize',
+    throttle2(function () {
+      myChart.resize();
+    }, 100),
+  );
 };
 
 function debounce2(fn, wait) {
@@ -26,4 +35,18 @@ function debounce2(fn, wait) {
     }, wait);
   };
 }
+function throttle2(fn, wait) {
+  let timeout;
+  return function () {
+    let context = this;
+    let args = arguments;
+    if (!timeout) {
+      timeout = setTimeout(function () {
+        timeout = null;
+        fn.apply(context, args);
+      }, wait);
+    }
+  };
+}
+
 export default init;

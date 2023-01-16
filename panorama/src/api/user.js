@@ -1,14 +1,10 @@
-import { get } from '@/utils/request';
+import request from '@/utils/request';
 
-export default class User {
-  /**
-   * 登录
-   * @param {String} query 用户名
-   * @returns
-   */
-  static async listSylas(query) {
-    return get('/system/sylas/List', {
-      query,
-    });
-  }
+// 获取数据
+export function listSylas(query) {
+  return request({
+    url: '/system/sylas/List',
+    method: 'get',
+    params: query,
+  });
 }

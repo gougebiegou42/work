@@ -9,6 +9,7 @@ import '@/assets/main.css';
 import '@/utils/flexible';
 
 Vue.prototype.$echarts = echarts;
+// console.log(import.meta.env);
 
 new Vue({
   router,

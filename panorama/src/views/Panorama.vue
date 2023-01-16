@@ -211,7 +211,7 @@
 <script>
 import init from '../utils/initChart';
 import '@/utils/china.js';
-import User from '@/api/user';
+import { listSylas } from '@/api/user';
 
 export default {
   data() {
@@ -228,13 +228,13 @@ export default {
     }
   },
   created() {
-    this.list();
   },
   mounted() {
     this.mapChart();
     this.totalProgress();
     this.rowProgress();
-    this.timeStamp()
+    this.timeStamp();
+    this.list();
     // this.row()
   },
   methods: {
@@ -320,8 +320,8 @@ export default {
 
       });
 
-      console.log(data)
-      console.log(toolTipData)
+      // console.log(data)
+      // console.log(toolTipData)
       var max = 480,
         min = 9; // todo 
       var maxSize4Pin = 100,
@@ -611,9 +611,10 @@ export default {
 
     },
     // 获取所有数据
-    async list() {
-      const res = await User.listSylas();
-      console.log(res);
+    list() {
+      listSylas().then((res) => {
+        console.log(res);
+      });
     },
   },
   computed: {

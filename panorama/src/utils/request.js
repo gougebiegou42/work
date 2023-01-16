@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { getToken } from '@/utils/auth';
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // 创建请求实例
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8200/',
   // 指定请求超时的毫秒数
   timeout: 180000,
   // 表示跨域请求时是否需要使用凭证
@@ -27,7 +28,8 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    console.log(error);
+    Promise.reject(error);
   },
 );
 

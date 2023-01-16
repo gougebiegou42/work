@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^1.2.2",
     "echarts": "^5.4.1",
+    "js-cookie": "^3.0.1",
     "vue": "^2.7.14",
     "vue-router": "^3.5.4",
     "vuex": "^3.6.2"
@@ -67,5 +68,9 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "parser": "babel-eslint"
+  }
 }

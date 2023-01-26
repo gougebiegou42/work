@@ -30,6 +30,7 @@ export default {
       const uuid = this.loginForm.uuid;
       return new Promise((resovle, reject) => {
         login(username, password, code, uuid).then(res => {
+          // console.log(res);
           setToken(res.data.data.token)
           resovle()
         }).catch(error => {

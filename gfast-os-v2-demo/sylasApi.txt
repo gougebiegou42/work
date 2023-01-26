@@ -1,0 +1,23 @@
+接口：http://localhost:8200  调取对应接口之前需token验证
+
+获取所有数据：/system/sylas/List  GET
+
+查询详细信息：'/system/sylas/Get?id='+sylasId  GET
+
+新建内容：'/system/sylas/Add'  POST  
+data：{
+            username,
+            password，
+}
+
+修改内容：'/system/sylas/Edit'  PUT
+data：{
+            sylasId,
+            username,
+            password，
+}
+
+删除内容：'/system/sylas/Delete'  DELETE
+data：{
+            ids:sylasId
+}

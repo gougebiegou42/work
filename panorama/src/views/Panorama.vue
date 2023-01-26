@@ -28,7 +28,7 @@
             <div class="total_progress"></div>
           </div>
           <div class="total_right">
-            <div class="r_top">395</div>
+            <div class="r_top">{{ pcount }}</div>
             <div class="r_bottom">累计项目数</div>
           </div>
           <div class="chart"></div>
@@ -46,7 +46,7 @@
                   <div class="info_icon icon1"></div>
                   <div class="info_title">累计房源数</div>
                 </div>
-                <div class="info_right">22.79 万间</div>
+                <div class="info_right">{{ housesCountCal }} 万间</div>
               </div>
               <div class="row_progress progress1">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
@@ -58,9 +58,9 @@
               <div class="row_info">
                 <div class="info_left">
                   <div class="info_icon icon2"></div>
-                  <div class="info_title">累计房源数</div>
+                  <div class="info_title">当前持有房源数</div>
                 </div>
-                <div class="info_right">22.79 万间</div>
+                <div class="info_right">{{ currentHousesCal }} 万间</div>
               </div>
               <div class="row_progress progress2">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
@@ -72,9 +72,9 @@
               <div class="row_info">
                 <div class="info_left">
                   <div class="info_icon icon3"></div>
-                  <div class="info_title">累计房源数</div>
+                  <div class="info_title">可运营房源数</div>
                 </div>
-                <div class="info_right">22.79 万间</div>
+                <div class="info_right">{{ operableHousesCal }} 万间</div>
               </div>
               <div class="row_progress progress3">
                 <img src="../assets/images/1房源项目规模/绿.png">
@@ -114,7 +114,7 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ripple_num">{{ barBottom }} <div>%</div>
+                  <div class="ripple_num">{{ rentalRate }} <div>%</div>
                   </div>
                 </div>
                 <div class="ripple_tag">出租率</div>
@@ -137,7 +137,7 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ripple_num">2750 <div>元/间/月</div>
+                  <div class="ripple_num">{{ rentalPrice }} <div>元/间/月</div>
                   </div>
                 </div>
                 <div class="ripple_tag">出租均价</div>
@@ -146,7 +146,7 @@
             <div class="rm_group">
               <div class="group group_left">
                 <div class="group_info">
-                  <div class="gi_top">5910<span>家</span></div>
+                  <div class="gi_top">{{ serviceEnt }}<span>家</span></div>
                   <div class="gi_bottom">累计服务企业数</div>
                 </div>
                 <img src="../assets/images/2运营效率/企业.png" alt="">
@@ -154,7 +154,7 @@
               <div class="group group_right">
                 <img src="../assets/images/2运营效率/租客.png" alt="">
                 <div class="group_info">
-                  <div class="gi_top">36.64<span>万人</span></div>
+                  <div class="gi_top">{{ serviceTenantCal }}<span>万人</span></div>
                   <div class="gi_bottom">累计服务租客数</div>
                 </div>
               </div>
@@ -169,15 +169,15 @@
           </div>
           <div class="pe_main">
             <div class="pe_info pe_left">
-              <div class="pi_top">20<span>万个</span></div>
+              <div class="pi_top">{{ smartDevicesCal }}<span>万个</span></div>
               <div class="pi_bottom">接入智能设备数</div>
             </div>
             <div class="pe_info pe_right">
-              <div class="pi_top">5000<span>家</span></div>
+              <div class="pi_top">{{ cooperativeOp }}<span>家</span></div>
               <div class="pi_bottom">合作运营商</div>
             </div>
             <div class="pe_info pe_bottom">
-              <div class="pi_top">2100<span>家</span></div>
+              <div class="pi_top">{{ allianceEnt }}<span>家</span></div>
               <div class="pi_bottom">入库联盟企业数</div>
             </div>
             <div class="pe_chart">
@@ -211,7 +211,7 @@
 <script>
 import init from '../utils/initChart';
 import '@/utils/china.js';
-import { listSylas } from '@/api/user';
+import { panoramaList } from '@/api/list';
 
 export default {
   data() {
@@ -223,8 +223,19 @@ export default {
       // 日期
       currentDate: '',
       // 时间
-      currentTime: ''
+      currentTime: '',
 
+      pcount: 396,// 累计项目数
+      housesCount: 227900,// 累计房源数
+      currentHouses: 227900,// 当前持有房源数
+      operableHouses: 227900,// 可运营房源数
+      rentalRate: 50,// 出租率
+      rentalPrice: 2750,// 出租均价
+      serviceEnt: 5910,// 累计服务企业数
+      serviceTenant: 366400,// 累计服务租客数
+      smartDevices: 200000,// 接入智能设备数
+      cooperativeOp: 5000,// 合作运营商数
+      allianceEnt: 2100,// 入库联盟企业数
     }
   },
   created() {
@@ -505,7 +516,7 @@ export default {
     },
     // 计算进度
     barProgress() {
-      return `bottom: calc(-125% + ${this.barBottom}%);`
+      return `bottom: calc(-125% + ${this.rentalRate}%);`
     },
     // total进度
     totalProgress() {
@@ -612,12 +623,48 @@ export default {
     },
     // 获取所有数据
     list() {
-      listSylas().then((res) => {
-        console.log(res);
+      panoramaList().then((res) => {
+
+        console.log(res.data.data.data[0]);
+        // { allianceEnt, cooperativeOp, currentHouses, housesCount, operableHouses, pcount, rentalPrice, serviceEnt, serviceTenant, smartDevices } = res.data.data.data[0];
+        this.allianceEnt = res.data.data.data[0].allianceEnt;
+        this.cooperativeOp = res.data.data.data[0].cooperativeOp;
+        this.currentHouses = res.data.data.data[0].currentHouses;
+        this.housesCount = res.data.data.data[0].housesCount;
+        this.operableHouses = res.data.data.data[0].operableHouses;
+        this.pcount = res.data.data.data[0].pcount;
+        this.rentalPrice = res.data.data.data[0].rentalPrice;
+        this.rentalRate = res.data.data.data[0].rentalRate;
+        this.serviceEnt = res.data.data.data[0].serviceEnt;
+        this.serviceTenant = res.data.data.data[0].serviceTenant;
+        this.smartDevices = res.data.data.data[0].smartDevices;
       });
     },
+    largeValue(val) {
+      // 10W
+      if (val > 100000) {
+        let num1 = val.toString().slice(0, 2);
+        let num2 = val.toString().slice(2, 4);
+        return `${num1}.${num2}`
+      }
+    }
   },
   computed: {
+    housesCountCal() {
+      return this.largeValue(this.housesCount)
+    },
+    currentHousesCal() {
+      return this.largeValue(this.currentHouses)
+    },
+    operableHousesCal() {
+      return this.largeValue(this.operableHouses)
+    },
+    serviceTenantCal() {
+      return this.largeValue(this.serviceTenant)
+    },
+    smartDevicesCal() {
+      return this.largeValue(this.smartDevices)
+    }
 
   }
 };

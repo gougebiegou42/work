@@ -137,6 +137,9 @@ func init() {
 				group.PUT("Edit", api.Sylas.Edit)
 				group.DELETE("Delete", api.Sylas.Delete)
 			})
+			group.Group("/panorama1", func(group *ghttp.RouterGroup) {
+				group.GET("List", api.Panorama1.List)
+			})
 			//系统监控
 			group.Group("/monitor", func(group *ghttp.RouterGroup) {
 				//在线用户管理

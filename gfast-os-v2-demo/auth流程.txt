@@ -1,0 +1,16 @@
+1.login登录 (设置token)
+store.user.js -> api.login.js -> login
+req: username password uuid
+res: setToken()    需通过js-cookie插件保存
+
+uuid 通过 getCodeImg 获取
+
+2.logout退出 (删除token)
+store.user.js -> api.login.js -> logout
+req:token
+res:removeToken()
+
+js-cookie -> auth.js
+
+3.request.js(配置请求头 getToken)
+

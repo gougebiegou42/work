@@ -29071,14 +29071,23 @@ DROP TABLE IF EXISTS `panorama1`;
 
 CREATE TABLE
     `panorama1` (
-        `sylas_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'sylasID',
-        `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号名称',
-        `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '账号密码',
+        `panorama1_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'panorama1ID',
+        `pcount` bigint(20) NOT NULL COMMENT '累计项目数',
+        `houses_count` bigint(20) NOT NULL COMMENT '累计房源数',
+        `current_houses` bigint(20) NOT NULL COMMENT '当前持有房源数',
+        `operable_houses` bigint(20) NOT NULL COMMENT '可运营房源数',
+        `rental_rate` bigint(20) NOT NULL COMMENT '出租率',
+        `rental_price` bigint(20) NOT NULL COMMENT '出租均价',
+        `service_ent` bigint(20) NOT NULL COMMENT '累计服务企业数',
+        `service_tenant` bigint(20) NOT NULL COMMENT '累计服务租客数',
+        `smart_devices` bigint(20) NOT NULL COMMENT '接入智能设备数',
+        `cooperative_op` bigint(20) NOT NULL COMMENT '合作运营商数',
+        `alliance_ent` bigint(20) NOT NULL COMMENT '入库联盟企业数',
         /* `created_at` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
         `updated_at` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
         `deleted_at` datetime(0) NULL DEFAULT NULL COMMENT '删除时间', */
-        PRIMARY KEY (`sylas_id`) USING BTREE
-    ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'sylas表' ROW_FORMAT = Compact;
+        PRIMARY KEY (`panorama1_id`) USING BTREE
+    ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'panorama1表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 
@@ -29089,15 +29098,17 @@ CREATE TABLE
 INSERT INTO `panorama1`
 VALUES (
         1,
-        '遥相呼应',
-        '123456',
-    );
-
-INSERT INTO `panorama1`
-VALUES (
-        2,
-        '乐滋滋',
-        '232323',
+        666,
+        222222,
+        333333,
+        111111,
+        66,
+        2800,
+        5959,
+        363636,
+        232222,
+        6666,
+        2121
     );
 
 -- ----------------------------

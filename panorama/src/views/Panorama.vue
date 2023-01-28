@@ -50,7 +50,7 @@
               </div>
               <div class="row_progress progress1">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
-                  <img :style="{ left: `calc(-${rowLeft}%)` }" src="../assets/images/1房源项目规模/黄.png">
+                  <img :style="{ left: `calc(-${rowLeft1}%)` }" src="../assets/images/1房源项目规模/黄.png">
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@
               </div>
               <div class="row_progress progress2">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
-                  <img src="../assets/images/1房源项目规模/青.png">
+                  <img :style="{ left: `calc(-${rowLeft2}%)` }" src="../assets/images/1房源项目规模/青.png">
                 </div>
               </div>
             </div>
@@ -77,7 +77,9 @@
                 <div class="info_right">{{ operableHousesCal }} 万间</div>
               </div>
               <div class="row_progress progress3">
-                <img src="../assets/images/1房源项目规模/绿.png">
+                <div style="width: 100%; height: 100%; overflow: hidden;">
+                  <img :style="{ left: `calc(-${rowLeft3}%)` }" src="../assets/images/1房源项目规模/绿.png">
+                </div>
               </div>
             </div>
           </div>
@@ -219,7 +221,10 @@ export default {
       // bar进度条垂直位移
       barBottom: 50,
       // row进度条水平位移
-      rowLeft: 100,
+      rowLeft1: 100,
+      rowLeft2: 100,
+      rowLeft3: 100,
+      rowTotal: 1000000,
       // 日期
       currentDate: '',
       // 时间
@@ -241,11 +246,13 @@ export default {
   created() {
   },
   mounted() {
+    this.list();
     this.mapChart();
     this.totalProgress();
-    this.rowProgress();
+    // this.rowProgress(1, this.housesCount);
+    // this.rowProgress(2, this.currentHouses);
+    this.rowProgress(3, this.operableHouses);
     this.timeStamp();
-    this.list();
     // this.row()
   },
   methods: {
@@ -576,10 +583,27 @@ export default {
       init('.total_progress', option)
     },
     // row进度
-    rowProgress() {
-      setTimeout(() => {
-        this.rowLeft = 30
-      }, 1000);
+    rowProgress(num, count) {
+      // setTimeout(() => {
+      //   this.rowLeft1 = 100 - (count / this.rowTotal) * 100
+      //   console.log(this.rowLeft1);
+      // }, 200);
+      if (num === 1) {
+        setTimeout(() => {
+          this.rowLeft1 = 100 - (count / this.rowTotal) * 100
+          console.log(this.rowLeft1);
+        }, 200);
+      } else if (num === 2) {
+        setTimeout(() => {
+          this.rowLeft2 = 100 - (count / this.rowTotal) * 100
+          console.log(this.rowLeft2);
+        }, 200);
+      } else if (num === 3) {
+        setTimeout(() => {
+          this.rowLeft3 = 100 - (count / this.rowTotal) * 100
+          console.log(this.rowLeft3);
+        }, 200);
+      }
       // return `left: calc(-${this.rowLeft}% + 0.06rem);`
       // timer = setInterval(loading, 1000)
     },
@@ -642,9 +666,13 @@ export default {
     },
     largeValue(val) {
       // 10W
-      if (val > 100000) {
+      if (val > 100000 && val <= 1000000) {
         let num1 = val.toString().slice(0, 2);
         let num2 = val.toString().slice(2, 4);
+        return `${num1}.${num2}`
+      } else if (val > 1000000) {
+        let num1 = val.toString().slice(0, 3);
+        let num2 = val.toString().slice(3, 5);
         return `${num1}.${num2}`
       }
     }
@@ -965,7 +993,7 @@ export default {
         .row_progress {
           margin-top: 0.16rem;
           height: 0.25rem;
-          padding: 0 0.06REM;
+          padding: 0 0.06rem;
           position: relative;
           overflow: hidden;
 

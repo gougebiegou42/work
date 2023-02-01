@@ -13,16 +13,17 @@
           <div class="time">{{ currentTime }}</div>
         </div>
       </div>
-      <div class="select">
+      <!-- <div class="select">
         全国
         <div class="select_icon"></div>
-      </div>
+      </div> -->
+      <SelectRegion></SelectRegion>
     </div>
     <!-- 主体内容 -->
     <div class="main">
       <div class="child main_left">
         <!-- 累计项目数 -->
-        <div class="total_data">
+        <div class="total_data" v-show="aroundHide">
           <div class="total_left">
             <div class="project_icon"></div>
             <div class="total_progress"></div>
@@ -34,7 +35,7 @@
           <div class="chart"></div>
         </div>
         <!-- 房源项目规模 -->
-        <div class="project_scale">
+        <div class="project_scale" v-show="aroundHide">
           <div class="p_header">
             <div class="p_icon"></div>
             <div class="p_title">房源项目规模</div>
@@ -91,7 +92,7 @@
       </div>
       <div class="child main_right">
         <!-- 运营效率 -->
-        <div class="run_efficiency">
+        <div class="run_efficiency" v-show="aroundHide">
           <div class="r_header">
             <img src="../assets/images/2运营效率/运营.png" alt="">
             <div class="r_title">运营效率</div>
@@ -164,7 +165,7 @@
           </div>
         </div>
         <!-- 产业生态 -->
-        <div class="product_ecology">
+        <div class="product_ecology" v-show="aroundHide">
           <div class="pe_header">
             <img src="../assets/images/3产业生态/产业生态.png" alt="">
             <div class="pe_title">产品生态</div>
@@ -197,6 +198,7 @@
           </div>
         </div>
       </div>
+      <!-- <Prefecture></Prefecture> -->
     </div>
     <!-- 底部切换 -->
     <div class="footer">
@@ -213,9 +215,16 @@
 <script>
 import init from '../utils/initChart';
 import '@/utils/china.js';
+import Prefecture from '@/components/Prefecture.vue'
+import SelectRegion from '@/components/SelectRegion.vue'
 import { panoramaList } from '@/api/list';
 
+
 export default {
+  components: {
+    Prefecture,
+    SelectRegion
+  },
   data() {
     return {
       // bar进度条垂直位移
@@ -241,6 +250,8 @@ export default {
       smartDevices: 200000,// 接入智能设备数
       cooperativeOp: 5000,// 合作运营商数
       allianceEnt: 2100,// 入库联盟企业数
+
+      aroundHide: true
     }
   },
   created() {
@@ -249,9 +260,6 @@ export default {
     this.list();
     this.mapChart();
     this.totalProgress();
-    // this.rowProgress(1, this.housesCount);
-    // this.rowProgress(2, this.currentHouses);
-    this.rowProgress(3, this.operableHouses);
     this.timeStamp();
     // this.row()
   },
@@ -662,6 +670,9 @@ export default {
         this.serviceEnt = res.data.data.data[0].serviceEnt;
         this.serviceTenant = res.data.data.data[0].serviceTenant;
         this.smartDevices = res.data.data.data[0].smartDevices;
+        this.rowProgress(1, this.housesCount);
+        this.rowProgress(2, this.currentHouses);
+        this.rowProgress(3, this.operableHouses);
       });
     },
     largeValue(val) {
@@ -786,33 +797,36 @@ export default {
     }
   }
 
-  .select {
-    background: url(../assets/images/区域选择/矩形.png) no-repeat;
-    background-size: 100% 100%;
-    width: 2.56rem;
-    height: 0.45rem;
-    position: absolute;
-    top: 1.13rem;
-    left: 0.41rem;
-    line-height: 0.45rem;
-    padding-left: 0.21rem;
+  // .select {
+  //   background: url(../assets/images/区域选择/矩形.png) no-repeat;
+  //   background-size: 100% 100%;
+  //   width: 2.56rem;
+  //   height: 0.45rem;
+  //   position: absolute;
+  //   top: 1.13rem;
+  //   left: 0.41rem;
+  //   line-height: 0.45rem;
+  //   padding-left: 0.21rem;
 
-    .select_icon {
-      background: url(../assets/images/区域选择/下拉.png) no-repeat;
-      background-size: 100% 100%;
-      width: 0.18rem;
-      height: 0.09rem;
-      position: absolute;
-      top: 0.18rem;
-      right: 0.17rem;
-    }
-  }
+  //   .select_icon {
+  //     background: url(../assets/images/区域选择/下拉.png) no-repeat;
+  //     background-size: 100% 100%;
+  //     width: 0.18rem;
+  //     height: 0.09rem;
+  //     position: absolute;
+  //     top: 0.18rem;
+  //     right: 0.17rem;
+  //   }
+  // }
 }
 
 .main {
   display: flex;
   margin: 0 auto;
+  justify-content: center;
+  height: 10.93rem;
   padding: 0 0.66rem;
+  position: relative;
 
   .child {
     overflow: hidden;
@@ -821,9 +835,9 @@ export default {
       width: 4.2rem;
     }
 
-    &:nth-child(2) {
-      flex: 1;
-    }
+    // &:nth-child(2) {
+    //   flex: 1;
+    // }
 
     &:nth-child(3) {
       width: 4.2rem;
@@ -831,6 +845,23 @@ export default {
       flex-flow: column;
       align-items: flex-end;
     }
+  }
+
+  .main_left {
+    position: absolute;
+    left: 0.66rem;
+    top: 0;
+  }
+
+  .main_right {
+    position: absolute;
+    right: 0.66rem;
+    top: 0;
+  }
+
+  .main_middle {
+    width: 15rem;
+    height: 10rem;
   }
 
   // 累计数

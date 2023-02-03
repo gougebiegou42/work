@@ -8,7 +8,7 @@
         }}</div>
       </div>
     </div>
-    <div class="main_right">
+    <div class="main_right" v-show="isActive === 0">
       <!-- 累计项目数 -->
       <div class="total_data">
         <div class="td_left">
@@ -26,7 +26,18 @@
             <div class="r_num">{{ item.projectNum }}<span>万间</span></div>
           </div>
         </div>
-
+      </div>
+    </div>
+    <div class="main_right left3" v-show="isActive === 2">
+      <!-- 产业生态 -->
+      <div class="project_scale">
+        <div class="ps_item" v-for="(item, index) in productEcology" :key="index">
+          <img class="project_left" :src="shiftImg('ecology', item.leftImg)" alt="">
+          <div class="project_right">
+            <div class="r_title">{{ item.projectTitle }}</div>
+            <div class="r_num">{{ item.projectNum }}<span>{{ index=== 0 ? '家' : '万台' }}</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -67,6 +78,19 @@ export default {
           projectNum: 8
         }
       ],
+      // 产业生态
+      productEcology: [
+        {
+          leftImg: '商户管理',
+          projectTitle: '合作运营商',
+          projectNum: 6000
+        },
+        {
+          leftImg: '智能设备',
+          projectTitle: '接入智能设备数',
+          projectNum: 50
+        }
+      ],
       selectStatus: false,
       isActive: 0
 
@@ -76,12 +100,21 @@ export default {
     shiftImg(type, url) {
       if (type === 'right') {
         return new URL(`../assets/images/regionRight/${url}.png`, import.meta.url).href
-      } else {
+      } else if (type === 'left') {
         return new URL(`../assets/images/regionLeft/${url}.png`, import.meta.url).href
+      } else if (type === 'ecology') {
+        return new URL(`../assets/images/productEcology/${url}.png`, import.meta.url).href
       }
     },
     activeClick(i) {
       this.isActive = i
+    }
+  },
+  watch: {
+    '$store.state.region.aroundHide'(val) {
+      if (val) {
+        this.isActive = 0
+      }
     }
   }
 }
@@ -223,6 +256,10 @@ export default {
         }
       }
     }
+  }
+
+  .left3 {
+    top: 2rem;
   }
 }
 </style>

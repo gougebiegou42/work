@@ -6,7 +6,7 @@ export default ({ mode }) => {
   const { VITE_PORT, VITE_BASE_URL } = loadEnv(mode, process.cwd());
 
   return defineConfig({
-    base: VITE_BASE_URL,
+    base: './',
     plugins: [vue2()],
     resolve: {
       alias: {
@@ -32,7 +32,7 @@ export default ({ mode }) => {
       // 监听所有地址
       host: '0.0.0.0',
       // 服务启动时是否自动打开浏览器
-      open: true,
+      open: false,
       // 允许跨域
       cors: true,
       // 自定义代理规则

@@ -88,7 +88,8 @@
       </div>
       <div class="child main_middle">
         <!-- 地图 -->
-        <div class="map_chart"></div>
+        <!-- <div class="map_chart"></div> -->
+        <Map></Map>
       </div>
       <div class="child main_right">
         <!-- 运营效率 -->
@@ -198,7 +199,7 @@
           </div>
         </div>
       </div>
-      <!-- <Prefecture></Prefecture> -->
+      <Prefecture v-show="!aroundHide"></Prefecture>
     </div>
     <!-- 底部切换 -->
     <div class="footer">
@@ -217,13 +218,15 @@ import init from '../utils/initChart';
 import '@/utils/china.js';
 import Prefecture from '@/components/Prefecture.vue'
 import SelectRegion from '@/components/SelectRegion.vue'
+import Map from '@/components/map.vue'
 import { panoramaList } from '@/api/list';
 
 
 export default {
   components: {
     Prefecture,
-    SelectRegion
+    SelectRegion,
+    Map
   },
   data() {
     return {
@@ -258,7 +261,7 @@ export default {
   },
   mounted() {
     this.list();
-    this.mapChart();
+    // this.mapChart();
     this.totalProgress();
     this.timeStamp();
     // this.row()
@@ -599,17 +602,14 @@ export default {
       if (num === 1) {
         setTimeout(() => {
           this.rowLeft1 = 100 - (count / this.rowTotal) * 100
-          console.log(this.rowLeft1);
         }, 200);
       } else if (num === 2) {
         setTimeout(() => {
           this.rowLeft2 = 100 - (count / this.rowTotal) * 100
-          console.log(this.rowLeft2);
         }, 200);
       } else if (num === 3) {
         setTimeout(() => {
           this.rowLeft3 = 100 - (count / this.rowTotal) * 100
-          console.log(this.rowLeft3);
         }, 200);
       }
       // return `left: calc(-${this.rowLeft}% + 0.06rem);`
@@ -705,6 +705,11 @@ export default {
       return this.largeValue(this.smartDevices)
     }
 
+  },
+  watch: {
+    '$store.state.region.aroundHide'(next) {
+      this.aroundHide = next
+    }
   }
 };
 </script>
@@ -716,6 +721,7 @@ export default {
   color: aliceblue;
   position: relative;
   font-family: 'lt';
+  overflow: hidden;
 }
 
 .header {

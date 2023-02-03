@@ -1,6 +1,6 @@
 <template>
   <div class="select_box">
-    <el-select v-model="value" placeholder="全国" class="select" :popper-append-to-body="false">
+    <el-select v-model="value" placeholder="全国" class="select" :popper-append-to-body="false" @change="selectHit">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>
@@ -11,23 +11,47 @@
 export default {
   data() {
     return {
-      options: [{
-        value: '选项1',
-        label: '深圳市'
-      }, {
-        value: '选项2',
-        label: '广州市'
-      }, {
-        value: '选项3',
-        label: '上海市'
-      }, {
-        value: '选项4',
-        label: '北京市'
-      }, {
-        value: '选项5',
-        label: '杭州市'
-      }],
+      options: [
+        {
+          value: 'china',
+          label: '全国'
+        }, {
+          value: '深圳市',
+          label: '深圳市'
+        }, {
+          value: '广州市',
+          label: '广州市'
+        }, {
+          value: '上海市',
+          label: '上海市'
+        }, {
+          value: '北京市',
+          label: '北京市'
+        }],
       value: ''
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    selectHit(e) {
+      if (e === 'china') {
+        this.$store.commit("region/hideDisable", true);
+        this.$store.commit("region/selectDisable", e)
+      } else {
+        this.$store.commit("region/hideDisable", false);
+        this.$store.commit("region/selectDisable", e)
+      }
+    },
+  },
+  watch: {
+    '$store.state.region.selectName'(val) {
+      this.options.map((item) => {
+        if (val === item.value) {
+          return this.value = val
+        }
+      })
     }
   }
 }

@@ -182,6 +182,7 @@
             </div>
             <div class="pe_info pe_bottom">
               <div class="pi_top">{{ allianceEnt }}<span>家</span></div>
+              <ScrollNum :value="'6952'"></ScrollNum>
               <div class="pi_bottom">入库联盟企业数</div>
             </div>
             <div class="pe_chart">
@@ -219,6 +220,7 @@ import '@/utils/china.js';
 import Prefecture from '@/components/Prefecture.vue'
 import SelectRegion from '@/components/SelectRegion.vue'
 import Map from '@/components/map.vue'
+import ScrollNum from '@/components/scrollNum.vue'
 import { panoramaList } from '@/api/list';
 
 
@@ -226,7 +228,8 @@ export default {
   components: {
     Prefecture,
     SelectRegion,
-    Map
+    Map,
+    ScrollNum
   },
   data() {
     return {

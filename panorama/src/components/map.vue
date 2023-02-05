@@ -6,7 +6,6 @@
 // 地区映射对象
 import { provinces } from '@/utils/provincesmap';
 import { cityMap } from '@/utils/citymap';
-import axios from 'axios';
 export default {
   data() {
     return {

@@ -21,7 +21,7 @@
     </div>
     <!-- 主体内容 -->
     <div class="main">
-      <div class="child main_left">
+      <div class="child main_left " :class="{ 'animate__fadeInLeft': aroundHide }">
         <!-- 累计项目数 -->
         <div class="total_data" v-show="aroundHide">
           <div class="total_left">
@@ -91,7 +91,7 @@
         <!-- <div class="map_chart"></div> -->
         <Map></Map>
       </div>
-      <div class="child main_right">
+      <div class="child main_right" :class="{ 'animate__fadeInRight': aroundHide }">
         <!-- 运营效率 -->
         <div class="run_efficiency" v-show="aroundHide">
           <div class="r_header">
@@ -592,7 +592,9 @@ export default {
             name: "库存周转率",
             data: [90]
           }
-        ]
+        ],
+        animationDuration: 4000,
+        animaationEasing: 'cubicInOut',
       }
       init('.total_progress', option)
     },
@@ -860,12 +862,14 @@ export default {
     position: absolute;
     left: 0.66rem;
     top: 0;
+    animation-duration: 1s;
   }
 
   .main_right {
     position: absolute;
     right: 0.66rem;
     top: 0;
+    animation-duration: 1s;
   }
 
   .main_middle {

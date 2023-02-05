@@ -1,6 +1,6 @@
 <template>
-  <div class="box_prefecture">
-    <div class="main_left">
+  <div class="box_prefecture" v-show="hide">
+    <div class="main_left animate__fadeInLeft">
       <div class="left_item" v-for="(item, index) in leftData" :key="index" @click="activeClick(index)">
         <img class="pic" :src="shiftImg('left', isActive == index ? item.img + '2' : item.img)" alt="">
         <div class="title" :class="isActive == index ? 'active' : ''">{{
@@ -8,7 +8,7 @@
         }}</div>
       </div>
     </div>
-    <div class="main_right" v-show="isActive === 0">
+    <div class="main_right animate__fadeInRight" v-show="isActive === 0">
       <!-- 累计项目数 -->
       <div class="total_data">
         <div class="td_left">
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="main_right left3" v-show="isActive === 2">
+    <div class="main_right left3 animate__fadeInRight" v-show="isActive === 2">
       <!-- 产业生态 -->
       <div class="project_scale">
         <div class="ps_item" v-for="(item, index) in productEcology" :key="index">
@@ -92,7 +92,8 @@ export default {
         }
       ],
       selectStatus: false,
-      isActive: 0
+      isActive: 0,
+      hide: true
 
     }
   },
@@ -115,6 +116,14 @@ export default {
       if (val) {
         this.isActive = 0
       }
+    },
+    '$store.state.region.selectName'(n, o) {
+      if (n !== o && n !== 'china') {
+        this.hide = false;
+        setTimeout(() => {
+          this.hide = true
+        })
+      }
     }
   }
 }
@@ -130,6 +139,7 @@ export default {
     position: absolute;
     left: 0.66rem;
     top: 0.74rem;
+    animation-duration: 1s;
 
     .left_item {
       width: 100%;
@@ -164,6 +174,7 @@ export default {
     position: absolute;
     right: 0.66rem;
     top: 0;
+    animation-duration: 1s;
     // border: 1px solid lightcoral;
 
     .total_data {

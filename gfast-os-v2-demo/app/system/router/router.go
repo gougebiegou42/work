@@ -137,8 +137,15 @@ func init() {
 				group.PUT("Edit", api.Sylas.Edit)
 				group.DELETE("Delete", api.Sylas.Delete)
 			})
+			//? panorama1
 			group.Group("/panorama1", func(group *ghttp.RouterGroup) {
 				group.GET("List", api.Panorama1.List)
+			})
+			//? panoramaImg
+			group.Group("/panoramaImg", func(group *ghttp.RouterGroup) {
+				group.GET("List", api.PanoramaImg.List)
+				group.POST("Add", api.PanoramaImg.Add)
+				group.DELETE("Delete", api.PanoramaImg.Delete)
 			})
 			//系统监控
 			group.Group("/monitor", func(group *ghttp.RouterGroup) {

@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { panoramaImgList, panoramaImgAdd, panoramaImgDelete } from '@/api/getPic';
 export default {
   data() {
     return {
@@ -28,22 +29,40 @@ export default {
           value: '北京市',
           label: '北京市'
         }],
-      value: ''
+      value: '',
+      pic: ''
     }
   },
   mounted() {
-
   },
   methods: {
     selectHit(e) {
       if (e === 'china') {
         this.$store.commit("region/hideDisable", true);
-        this.$store.commit("region/selectDisable", e)
+        this.$store.commit("region/selectDisable", e);
       } else {
         this.$store.commit("region/hideDisable", false);
         this.$store.commit("region/selectDisable", e)
       }
     },
+    // 获取图片
+    async imgList() {
+      await panoramaImgList().then((res) => {
+        this.pic = res.data.data.data[0].picture;
+      })
+    },
+    // 添加图片
+    async imgAdd(data) {
+      await panoramaImgAdd(data).then(res => {
+        console.log(res);
+      })
+    },
+    // 删除图片
+    async imgDelete(id) {
+      await panoramaImgDelete(id).then(res => {
+        console.log(res);
+      })
+    }
   },
   watch: {
     '$store.state.region.selectName'(val) {

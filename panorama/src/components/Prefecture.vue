@@ -15,7 +15,9 @@
           <img class="l_top" src="../assets/images/regionRight/累计项目.png" alt="">
           <div class="l_bottom">累计项目数</div>
         </div>
-        <div class="td_right">66<span>个</span></div>
+        <div class="td_right">
+          <ScrollNum :value="66" size="0.9rem"><span>个</span></ScrollNum>
+        </div>
       </div>
       <!-- 房源项目规模 -->
       <div class="project_scale">
@@ -44,7 +46,11 @@
 </template>
 
 <script>
+import ScrollNum from '@/components/scrollNum.vue'
 export default {
+  components: {
+    ScrollNum
+  },
   data() {
     return {
       leftData: [

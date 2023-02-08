@@ -29113,6 +29113,45 @@ VALUES (
 
 -- ----------------------------
 
+-- Table structure for panoramaImg
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `panoramaImg`;
+
+CREATE TABLE
+    `panoramaImg` (
+        `panoramaImg_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'panoramaImgID',
+        `picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片',
+        PRIMARY KEY (`panoramaImg_id`) USING BTREE
+    ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'panoramaImg表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+
+-- Records of panoramaImg
+
+-- ----------------------------
+
+INSERT INTO `panoramaImg`
+VALUES (
+        1,
+        'http://192.168.1.8/panoramaImg/pic1.png'
+    );
+
+INSERT INTO `panoramaImg`
+VALUES (
+        2,
+        'http://192.168.1.8/panoramaImg/pic2.png'
+    );
+
+INSERT INTO `panoramaImg`
+VALUES (
+        3,
+        '12321321'
+    );
+
+-- ----------------------------
+
 -- Table structure for sys_role
 
 -- ----------------------------

@@ -1,76 +1,112 @@
 <template>
-  <div style="display: flex;">
-    <div v-for="(item, index) in numberList" :key="index" style="display: flex;">
-      <span v-if="isNaN(item)">{{ item }}</span>
-      <div class="number" v-else>
-        <span class="number-item" ref="numberItem" :data-number="item" :data-index="index">0123456879</span>
-      </div>
-    </div>
+  <div class="test-box" :style="{ '--size': size, '--slotSize': slotSize }" v-if="hiden">
+    <div class="test">{{ animatedNumber }}</div>
+    <slot></slot>
   </div>
 </template>
 
 <script>
+import gsap from 'gsap'
 export default {
   props: {
     value: {
       type: [String, Number],
       default: 0
-    }
-  },
-  watch: {
-    value(newVal) {
-      if (newVal) {
-        this.$nextTick(() => {
-          this.setNumberTransform();
-        });
-      }
-    }
-  },
-  computed: {
-    numberList() {
-      return String(this.value).split("");
+    },
+    size: {
+      type: String,
+    },
+    slotSize: {
+      type: String,
+      // default: '0rem'
+    },
+    bigNum: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
-    return {};
-  },
-  methods: {
-    // 设置每一位数字的偏移
-    setNumberTransform() {
-      let numberItems = this.$refs.numberItem;
-      let obj = {};
-      Array.from(numberItems).forEach(c => {
-        let key = c.dataset.index;
-        let value = c.dataset.number;
-        let init = 0;
-        obj[key] = setInterval(() => {
-          if (init < value * 10) {
-            init += 1;
-            c.style.transform = `translateY(-${init}%)`;
-          } else {
-            clearInterval(obj[key]);
-            obj[key] = null;
-          }
-        }, 15);
-      });
+    return {
+      num: 0,//初始值
+      hiden: true,
     }
   },
   mounted() {
-    this.setNumberTransform();
+    this.animateText()
   }
-};
+  ,
+  computed: {
+    animatedNumber() {
+
+      if (this.bigNum) {
+        return this.num.toFixed(0).toString().replace(/(\d)(?=(\d{2})(?!\d))/g, '$1.');
+      } else {
+        return this.num.toFixed(0)
+      }
+      // return this.num.toFixed(0).toString().replace(/(\d)(?=(\d{2})(?!\d))/g, '$1.');
+
+      // return this.largeValue(this.num.toFixed(0))
+    }
+  }
+  ,
+  watch: {
+    value() {
+      this.animateText()
+    },
+    '$store.state.region.selectName'(val) {
+      this.hiden = false;
+      setTimeout(() => {
+        this.hiden = true
+      })
+    },
+  },
+  methods: {
+    animateText() {
+      gsap.to(this, {
+        duration: 1.5,
+        num: this.value,
+        repeat: -1,
+        repeatDelay: 6
+      })
+
+    },
+    formatNumber(num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    },
+    // largeValue(val) {
+    //   // 10W
+    //   if (val > 100000 && val <= 1000000) {
+    //     let num1 = val.toString().slice(0, 2);
+    //     let num2 = val.toString().slice(2, 4);
+    //     return `${num1}.${num2}`
+    //   } else if (val > 1000000) {
+    //     let num1 = val.toString().slice(0, 3);
+    //     let num2 = val.toString().slice(3, 5);
+    //     return `${num1}.${num2}`
+    //   } else {
+    //     return val
+    //   }
+    // }
+  }
+}
 </script>
 
-<style scoped lang="less">
-.number {
-  width: 0.25rem;
-  height: 0.20rem;
-  overflow: hidden;
+<style lang="less" scoped>
+.test-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
 
-  >span {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    transform: translateY(0%);
+  span {
+    line-height: 1.3;
+    font-size: var(--slotSize, 0.1rem);
+    padding-left: .0375rem;
+  }
+
+  .test {
+    font-size: var(--size, 0.3rem);
+    line-height: 1;
+    font-weight: 400;
   }
 }
 </style>

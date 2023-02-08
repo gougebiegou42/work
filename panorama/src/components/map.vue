@@ -49,6 +49,10 @@ export default {
         // 如果点击的是34个省、市、自治区，绘制选中地区的二级地图
         let data = await import(`../assets/map/province/${provinces[params.name]}.json`);
         console.log(data.default);
+        if (that.special.indexOf(params.name) >= 0) {
+          this.$store.commit("region/hideDisable", false);
+          this.$store.commit('region/selectDisable', params.name);
+        }
         // 注册省份地图数据
         that.$echarts.registerMap(params.name, data.default);
         // 添加省份对应的城市数据
@@ -64,6 +68,7 @@ export default {
         // 判断点击的是不是城市
         // 如果是【直辖市/特别行政区】只有二级下钻
         if (that.special.indexOf(params.seriesName) >= 0) {
+          console.log(params.seriesName);
           // 打开百度地图 
           // let { data: { result: { location: { lat, lng } } } } = await axios.get('/baidu/geocoding/v3/', {
           //   params: {

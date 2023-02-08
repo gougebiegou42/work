@@ -29,7 +29,9 @@
             <div class="total_progress"></div>
           </div>
           <div class="total_right">
-            <div class="r_top">{{ pcount }}</div>
+            <div class="r_top">
+              <ScrollNum :value="pcount" size="0.63rem"></ScrollNum>
+            </div>
             <div class="r_bottom">累计项目数</div>
           </div>
           <div class="chart"></div>
@@ -47,7 +49,9 @@
                   <div class="info_icon icon1"></div>
                   <div class="info_title">累计房源数</div>
                 </div>
-                <div class="info_right">{{ housesCountCal }} 万间</div>
+                <!-- <div class="info_right">{{ housesCountCal }} 万间</div> -->
+                <ScrollNum :value="housesCountCal" :bigNum="housesCount >= 10000 ? true : false"><span>{{
+                housesCount>= 10000 ? '万' : '' }}间</span></ScrollNum>
               </div>
               <div class="row_progress progress1">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
@@ -61,7 +65,9 @@
                   <div class="info_icon icon2"></div>
                   <div class="info_title">当前持有房源数</div>
                 </div>
-                <div class="info_right">{{ currentHousesCal }} 万间</div>
+                <!-- <div class="info_right">{{ currentHousesCal }} 万间</div> -->
+                <ScrollNum :value="currentHousesCal" :bigNum="currentHouses >= 10000 ? true : false"><span>{{
+                currentHouses>= 10000 ? '万' : '' }}间</span></ScrollNum>
               </div>
               <div class="row_progress progress2">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
@@ -75,7 +81,9 @@
                   <div class="info_icon icon3"></div>
                   <div class="info_title">可运营房源数</div>
                 </div>
-                <div class="info_right">{{ operableHousesCal }} 万间</div>
+                <!-- <div class="info_right">{{ operableHousesCal }} 万间</div> -->
+                <ScrollNum :value="operableHousesCal" :bigNum="operableHouses >= 10000 ? true : false"><span>{{
+                operableHouses>= 10000 ? '万' : '' }}间</span></ScrollNum>
               </div>
               <div class="row_progress progress3">
                 <div style="width: 100%; height: 100%; overflow: hidden;">
@@ -150,7 +158,9 @@
             <div class="rm_group">
               <div class="group group_left">
                 <div class="group_info">
-                  <div class="gi_top">{{ serviceEnt }}<span>家</span></div>
+                  <!-- <div class="gi_top">{{ serviceEnt }}<span>家</span></div> -->
+                  <ScrollNum :value="serviceEnt" :bigNum="serviceEnt >= 10000 ? true : false"><span>{{
+                  serviceEnt>= 10000 ? '万' : '' }}家</span></ScrollNum>
                   <div class="gi_bottom">累计服务企业数</div>
                 </div>
                 <img src="../assets/images/2运营效率/企业.png" alt="">
@@ -158,7 +168,9 @@
               <div class="group group_right">
                 <img src="../assets/images/2运营效率/租客.png" alt="">
                 <div class="group_info">
-                  <div class="gi_top">{{ serviceTenantCal }}<span>万人</span></div>
+                  <!-- <div class="gi_top">{{ serviceTenantCal }}<span>万人</span></div> -->
+                  <ScrollNum :value="serviceTenantCal" :bigNum="serviceTenant >= 10000 ? true : false"><span>{{
+                  serviceTenant>= 10000 ? '万' : '' }}人</span></ScrollNum>
                   <div class="gi_bottom">累计服务租客数</div>
                 </div>
               </div>
@@ -173,16 +185,24 @@
           </div>
           <div class="pe_main">
             <div class="pe_info pe_left">
-              <div class="pi_top">{{ smartDevicesCal }}<span>万个</span></div>
+              <!-- <div class="pi_top">{{ smartDevicesCal }}<span>万个</span></div> -->
+              <!-- <ScrollNum :value="smartDevicesCal"><span>万个</span></ScrollNum> -->
+              <ScrollNum :value="smartDevicesCal" :bigNum="smartDevices >= 10000 ? true : false"><span>{{
+              smartDevices>= 10000 ? '万' : '' }}个</span></ScrollNum>
               <div class="pi_bottom">接入智能设备数</div>
             </div>
             <div class="pe_info pe_right">
-              <div class="pi_top">{{ cooperativeOp }}<span>家</span></div>
+              <!-- <div class="pi_top">{{ cooperativeOp }}<span>家</span></div> -->
+              <!-- <ScrollNum :value="cooperativeOp"><span>家</span></ScrollNum> -->
+              <ScrollNum :value="cooperativeOp" :bigNum="cooperativeOp >= 10000 ? true : false"><span>{{
+              cooperativeOp>= 10000 ? '万' : '' }}家</span></ScrollNum>
               <div class="pi_bottom">合作运营商</div>
             </div>
             <div class="pe_info pe_bottom">
-              <div class="pi_top">{{ allianceEnt }}<span>家</span></div>
-              <ScrollNum :value="'6952'"></ScrollNum>
+              <!-- <div class="pi_top">{{ allianceEnt }}<span>家</span></div> -->
+              <!-- <ScrollNum :value="allianceEnt"><span>家</span></ScrollNum> -->
+              <ScrollNum :value="allianceEnt" :bigNum="allianceEnt >= 10000 ? true : false"><span>{{
+              allianceEnt>= 10000 ? '万' : '' }}家</span></ScrollNum>
               <div class="pi_bottom">入库联盟企业数</div>
             </div>
             <div class="pe_chart">
@@ -229,7 +249,7 @@ export default {
     Prefecture,
     SelectRegion,
     Map,
-    ScrollNum
+    ScrollNum,
   },
   data() {
     return {
@@ -659,8 +679,8 @@ export default {
 
     },
     // 获取所有数据
-    list() {
-      panoramaList().then((res) => {
+    async list() {
+      await panoramaList().then((res) => {
 
         console.log(res.data.data.data[0]);
         // { allianceEnt, cooperativeOp, currentHouses, housesCount, operableHouses, pcount, rentalPrice, serviceEnt, serviceTenant, smartDevices } = res.data.data.data[0];
@@ -685,11 +705,11 @@ export default {
       if (val > 100000 && val <= 1000000) {
         let num1 = val.toString().slice(0, 2);
         let num2 = val.toString().slice(2, 4);
-        return `${num1}.${num2}`
+        return `${num1}${num2}`
       } else if (val > 1000000) {
         let num1 = val.toString().slice(0, 3);
         let num2 = val.toString().slice(3, 5);
-        return `${num1}.${num2}`
+        return `${num1}${num2}`
       }
     }
   },
@@ -917,7 +937,7 @@ export default {
 
     .total_right {
       position: absolute;
-      top: 0;
+      top: 0.5rem;
       right: 0.25rem;
       width: 1.81rem;
       height: 1.1rem;
@@ -938,7 +958,7 @@ export default {
         font-size: 0.32rem;
         font-weight: 400;
         color: #80c2ff;
-        line-height: 1.11rem;
+        line-height: 1;
       }
     }
   }
